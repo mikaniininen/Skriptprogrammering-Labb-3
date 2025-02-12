@@ -1,12 +1,19 @@
 import requests, json
+import os
+import requirements
 
 
-api_key = 'cc26ded9'
+api_key = os.getenv('API_KEY')
 json_file = 'file_str.json'
 
 
 def search_title():
+
+    print('För att återgå till meny, skriv "return"')
     user_title = input('Skriv din titel: ')
+    print('')
+    if user_title == 'return':
+        return
     url = 'https://omdbapi.com/?apikey=' + api_key + '&t=' + user_title
     fetch_url_json(url)
     add_history(user_title)
@@ -55,7 +62,11 @@ def print_json(json_file):
 
 
 def search_word():
+    print('För att återgå till meny, skriv "return"')
     user_word = input('Skriv ditt sökord: ')
+    print('')
+    if user_word == 'return':
+        return
     url = 'https://omdbapi.com/?apikey=' + api_key + '&s=' + user_word
     fetch_url_json(url)
     with open(json_file, 'r', encoding='utf-8') as jsonf:
