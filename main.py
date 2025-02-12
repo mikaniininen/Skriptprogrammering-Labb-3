@@ -14,7 +14,7 @@ def main():
             case 1:
                 methods.search_title()
             case 2:
-                print('nej')
+                methods.print_history()
             case 3:
                 methods.search_word()
             case 4:

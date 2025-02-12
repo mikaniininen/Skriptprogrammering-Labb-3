@@ -1,12 +1,13 @@
 import requests, json
 import os
-import requirements
+#import requirements
 from dotenv import load_dotenv
 load_dotenv()
+from collections import deque
 
 api_key = os.getenv('API_KEY')
 json_file = 'file_str.json'
-
+history = 'search_json.json'
 
 def search_title():
 
@@ -17,13 +18,33 @@ def search_title():
         return
     url = 'https://omdbapi.com/?apikey=' + api_key + '&t=' + user_title
     fetch_url_json(url)
-    add_history(user_title)
+    add_history()
 
-def add_history(user_title):
+def add_history(history_output):
+    search_history = deque(maxlen=5)
+    search_history.append(history_output)
+
+
     with open('search_json.json', 'w', encoding='utf-8') as fpointer:
-        wdata = json.dumps(user_title)
+        wdata = json.dumps(history_output)
         fpointer.write(wdata)
     print_json(json_file)
+
+def print_history(json_file):
+    try:
+        with open(json_file, 'r', encoding = 'utf-8-sig') as jsonf:
+            history_dict = json.load(jsonf)
+
+        keys_to_extract = ['Title', 'Year']
+        filtered_data = {key:history_dict[key] for key in keys_to_extract if key in history_dict}
+
+        with open(history, 'w', encoding='utf-8-sig') as jsonf:
+            json.dump(filtered_data, jsonf)
+            history_output = json.dumps(filtered_data, indent=4, ensure_ascii=False)
+
+
+    except FileNotFoundError:
+        print('\nERROR: Filen finns inte\n')
 
 def fetch_url_json(url):
     response = requests.get(url)
@@ -53,12 +74,8 @@ def print_json(json_file):
             output = json.dumps(filtered_data, indent=4, ensure_ascii=False)
         print(output)
 
-
     except FileNotFoundError:
         print('\nERROR: Filen finns inte\n')
-
-
-#def print_history():
 
 
 
