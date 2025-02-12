@@ -22,6 +22,7 @@ def fetch_url_json(url):
         wdata = json.dumps(data)
         fpointer.write(wdata)
 
+
 #fetch_url_json(url)
 
 search_title()
