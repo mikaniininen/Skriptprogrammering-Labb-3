@@ -1,7 +1,8 @@
 import requests, json
 import os
 import requirements
-
+from dotenv import load_dotenv
+load_dotenv()
 
 api_key = os.getenv('API_KEY')
 json_file = 'file_str.json'
